@@ -13,6 +13,6 @@ func main() {
 	router := gin.Default()
 	router.POST("/file/parse", controller.FileParse)
 	router.POST("/model/gen/all", controller.GenerateModels)
-	router.POST("/model/gen/:model", controller.GenerateModels)
+	router.POST("/model/gen", controller.GenerateModel)
 	router.Run()
 }
