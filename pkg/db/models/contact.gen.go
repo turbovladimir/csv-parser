@@ -28,11 +28,12 @@ func newContact(db *gorm.DB, opts ...gen.DOOption) contact {
 	tableName := _contact.contactDo.TableName()
 	_contact.ALL = field.NewAsterisk(tableName)
 	_contact.ID = field.NewInt32(tableName, "id")
-	_contact.SmsQueueID = field.NewInt32(tableName, "sms_queue_id")
+	_contact.QueueID = field.NewInt32(tableName, "queue_id")
 	_contact.AddedAt = field.NewTime(tableName, "added_at")
 	_contact.Name = field.NewString(tableName, "name")
 	_contact.Phone = field.NewString(tableName, "phone")
 	_contact.ContactID = field.NewString(tableName, "contact_id")
+	_contact.Source = field.NewString(tableName, "source")
 
 	_contact.fillFieldMap()
 
@@ -42,13 +43,14 @@ func newContact(db *gorm.DB, opts ...gen.DOOption) contact {
 type contact struct {
 	contactDo
 
-	ALL        field.Asterisk
-	ID         field.Int32
-	SmsQueueID field.Int32
-	AddedAt    field.Time
-	Name       field.String
-	Phone      field.String
-	ContactID  field.String
+	ALL       field.Asterisk
+	ID        field.Int32
+	QueueID   field.Int32
+	AddedAt   field.Time
+	Name      field.String
+	Phone     field.String
+	ContactID field.String
+	Source    field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -66,11 +68,12 @@ func (c contact) As(alias string) *contact {
 func (c *contact) updateTableName(table string) *contact {
 	c.ALL = field.NewAsterisk(table)
 	c.ID = field.NewInt32(table, "id")
-	c.SmsQueueID = field.NewInt32(table, "sms_queue_id")
+	c.QueueID = field.NewInt32(table, "queue_id")
 	c.AddedAt = field.NewTime(table, "added_at")
 	c.Name = field.NewString(table, "name")
 	c.Phone = field.NewString(table, "phone")
 	c.ContactID = field.NewString(table, "contact_id")
+	c.Source = field.NewString(table, "source")
 
 	c.fillFieldMap()
 
@@ -87,13 +90,14 @@ func (c *contact) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (c *contact) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 6)
+	c.fieldMap = make(map[string]field.Expr, 7)
 	c.fieldMap["id"] = c.ID
-	c.fieldMap["sms_queue_id"] = c.SmsQueueID
+	c.fieldMap["queue_id"] = c.QueueID
 	c.fieldMap["added_at"] = c.AddedAt
 	c.fieldMap["name"] = c.Name
 	c.fieldMap["phone"] = c.Phone
 	c.fieldMap["contact_id"] = c.ContactID
+	c.fieldMap["source"] = c.Source
 }
 
 func (c contact) clone(db *gorm.DB) contact {

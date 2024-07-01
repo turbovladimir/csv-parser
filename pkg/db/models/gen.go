@@ -16,84 +16,34 @@ import (
 )
 
 var (
-	Q                        = new(Query)
-	Contact                  *contact
-	DoctrineMigrationVersion *doctrineMigrationVersion
-	LoanRequest              *loanRequest
-	Offer                    *offer
-	OfferCheckerRelation     *offerCheckerRelation
-	PhoneVerifyJob           *phoneVerifyJob
-	Push                     *push
-	SendingSmsJob            *sendingSmsJob
-	Sm                       *sm
-	SmsQueue                 *smsQueue
-	UserAccess               *userAccess
+	Q       = new(Query)
+	Contact *contact
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Contact = &Q.Contact
-	DoctrineMigrationVersion = &Q.DoctrineMigrationVersion
-	LoanRequest = &Q.LoanRequest
-	Offer = &Q.Offer
-	OfferCheckerRelation = &Q.OfferCheckerRelation
-	PhoneVerifyJob = &Q.PhoneVerifyJob
-	Push = &Q.Push
-	SendingSmsJob = &Q.SendingSmsJob
-	Sm = &Q.Sm
-	SmsQueue = &Q.SmsQueue
-	UserAccess = &Q.UserAccess
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:                       db,
-		Contact:                  newContact(db, opts...),
-		DoctrineMigrationVersion: newDoctrineMigrationVersion(db, opts...),
-		LoanRequest:              newLoanRequest(db, opts...),
-		Offer:                    newOffer(db, opts...),
-		OfferCheckerRelation:     newOfferCheckerRelation(db, opts...),
-		PhoneVerifyJob:           newPhoneVerifyJob(db, opts...),
-		Push:                     newPush(db, opts...),
-		SendingSmsJob:            newSendingSmsJob(db, opts...),
-		Sm:                       newSm(db, opts...),
-		SmsQueue:                 newSmsQueue(db, opts...),
-		UserAccess:               newUserAccess(db, opts...),
+		db:      db,
+		Contact: newContact(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Contact                  contact
-	DoctrineMigrationVersion doctrineMigrationVersion
-	LoanRequest              loanRequest
-	Offer                    offer
-	OfferCheckerRelation     offerCheckerRelation
-	PhoneVerifyJob           phoneVerifyJob
-	Push                     push
-	SendingSmsJob            sendingSmsJob
-	Sm                       sm
-	SmsQueue                 smsQueue
-	UserAccess               userAccess
+	Contact contact
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:                       db,
-		Contact:                  q.Contact.clone(db),
-		DoctrineMigrationVersion: q.DoctrineMigrationVersion.clone(db),
-		LoanRequest:              q.LoanRequest.clone(db),
-		Offer:                    q.Offer.clone(db),
-		OfferCheckerRelation:     q.OfferCheckerRelation.clone(db),
-		PhoneVerifyJob:           q.PhoneVerifyJob.clone(db),
-		Push:                     q.Push.clone(db),
-		SendingSmsJob:            q.SendingSmsJob.clone(db),
-		Sm:                       q.Sm.clone(db),
-		SmsQueue:                 q.SmsQueue.clone(db),
-		UserAccess:               q.UserAccess.clone(db),
+		db:      db,
+		Contact: q.Contact.clone(db),
 	}
 }
 
@@ -107,48 +57,18 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:                       db,
-		Contact:                  q.Contact.replaceDB(db),
-		DoctrineMigrationVersion: q.DoctrineMigrationVersion.replaceDB(db),
-		LoanRequest:              q.LoanRequest.replaceDB(db),
-		Offer:                    q.Offer.replaceDB(db),
-		OfferCheckerRelation:     q.OfferCheckerRelation.replaceDB(db),
-		PhoneVerifyJob:           q.PhoneVerifyJob.replaceDB(db),
-		Push:                     q.Push.replaceDB(db),
-		SendingSmsJob:            q.SendingSmsJob.replaceDB(db),
-		Sm:                       q.Sm.replaceDB(db),
-		SmsQueue:                 q.SmsQueue.replaceDB(db),
-		UserAccess:               q.UserAccess.replaceDB(db),
+		db:      db,
+		Contact: q.Contact.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Contact                  IContactDo
-	DoctrineMigrationVersion IDoctrineMigrationVersionDo
-	LoanRequest              ILoanRequestDo
-	Offer                    IOfferDo
-	OfferCheckerRelation     IOfferCheckerRelationDo
-	PhoneVerifyJob           IPhoneVerifyJobDo
-	Push                     IPushDo
-	SendingSmsJob            ISendingSmsJobDo
-	Sm                       ISmDo
-	SmsQueue                 ISmsQueueDo
-	UserAccess               IUserAccessDo
+	Contact IContactDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Contact:                  q.Contact.WithContext(ctx),
-		DoctrineMigrationVersion: q.DoctrineMigrationVersion.WithContext(ctx),
-		LoanRequest:              q.LoanRequest.WithContext(ctx),
-		Offer:                    q.Offer.WithContext(ctx),
-		OfferCheckerRelation:     q.OfferCheckerRelation.WithContext(ctx),
-		PhoneVerifyJob:           q.PhoneVerifyJob.WithContext(ctx),
-		Push:                     q.Push.WithContext(ctx),
-		SendingSmsJob:            q.SendingSmsJob.WithContext(ctx),
-		Sm:                       q.Sm.WithContext(ctx),
-		SmsQueue:                 q.SmsQueue.WithContext(ctx),
-		UserAccess:               q.UserAccess.WithContext(ctx),
+		Contact: q.Contact.WithContext(ctx),
 	}
 }
 

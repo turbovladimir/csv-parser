@@ -8,7 +8,6 @@ import (
 )
 
 type GenerateModelsRequest struct {
-	OutputDir string `json:"output_dir"`
 }
 
 func GenerateModels(c *gin.Context) {
@@ -21,11 +20,10 @@ func GenerateModels(c *gin.Context) {
 	}
 
 	g := db.ModelGenerator{}
-	g.GenerateAll(r.OutputDir)
+	g.GenerateAll()
 }
 
 type GenerateModelRequest struct {
-	OutputDir string `json:"output_dir"`
 	ModelName string `json:"model_name"`
 }
 
@@ -39,5 +37,5 @@ func GenerateModel(c *gin.Context) {
 	}
 
 	g := db.ModelGenerator{}
-	g.GenerateModel(r.OutputDir, r.ModelName)
+	g.GenerateModel(r.ModelName)
 }

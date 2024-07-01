@@ -34,14 +34,8 @@ func newLoanRequest(db *gorm.DB, opts ...gen.DOOption) loanRequest {
 	_loanRequest.Phone = field.NewString(tableName, "phone")
 	_loanRequest.Birth = field.NewTime(tableName, "birth")
 	_loanRequest.Email = field.NewString(tableName, "email")
-	_loanRequest.DepartmentCode = field.NewInt32(tableName, "department_code")
-	_loanRequest.IssueDate = field.NewTime(tableName, "issue_date")
 	_loanRequest.AddedAt = field.NewTime(tableName, "added_at")
-	_loanRequest.PassportSeries = field.NewInt32(tableName, "passport_series")
-	_loanRequest.PassportNumber = field.NewInt32(tableName, "passport_number")
-	_loanRequest.Department = field.NewString(tableName, "department")
 	_loanRequest.BirthPlace = field.NewString(tableName, "birth_place")
-	_loanRequest.RegPlace = field.NewString(tableName, "reg_place")
 
 	_loanRequest.fillFieldMap()
 
@@ -51,22 +45,16 @@ func newLoanRequest(db *gorm.DB, opts ...gen.DOOption) loanRequest {
 type loanRequest struct {
 	loanRequestDo
 
-	ALL            field.Asterisk
-	ID             field.Int32
-	Name           field.String
-	Surname        field.String
-	Patron         field.String
-	Phone          field.String
-	Birth          field.Time
-	Email          field.String
-	DepartmentCode field.Int32
-	IssueDate      field.Time
-	AddedAt        field.Time
-	PassportSeries field.Int32
-	PassportNumber field.Int32
-	Department     field.String
-	BirthPlace     field.String
-	RegPlace       field.String
+	ALL        field.Asterisk
+	ID         field.Int32
+	Name       field.String
+	Surname    field.String
+	Patron     field.String
+	Phone      field.String
+	Birth      field.Time
+	Email      field.String
+	AddedAt    field.Time
+	BirthPlace field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -90,14 +78,8 @@ func (l *loanRequest) updateTableName(table string) *loanRequest {
 	l.Phone = field.NewString(table, "phone")
 	l.Birth = field.NewTime(table, "birth")
 	l.Email = field.NewString(table, "email")
-	l.DepartmentCode = field.NewInt32(table, "department_code")
-	l.IssueDate = field.NewTime(table, "issue_date")
 	l.AddedAt = field.NewTime(table, "added_at")
-	l.PassportSeries = field.NewInt32(table, "passport_series")
-	l.PassportNumber = field.NewInt32(table, "passport_number")
-	l.Department = field.NewString(table, "department")
 	l.BirthPlace = field.NewString(table, "birth_place")
-	l.RegPlace = field.NewString(table, "reg_place")
 
 	l.fillFieldMap()
 
@@ -114,7 +96,7 @@ func (l *loanRequest) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (l *loanRequest) fillFieldMap() {
-	l.fieldMap = make(map[string]field.Expr, 15)
+	l.fieldMap = make(map[string]field.Expr, 9)
 	l.fieldMap["id"] = l.ID
 	l.fieldMap["name"] = l.Name
 	l.fieldMap["surname"] = l.Surname
@@ -122,14 +104,8 @@ func (l *loanRequest) fillFieldMap() {
 	l.fieldMap["phone"] = l.Phone
 	l.fieldMap["birth"] = l.Birth
 	l.fieldMap["email"] = l.Email
-	l.fieldMap["department_code"] = l.DepartmentCode
-	l.fieldMap["issue_date"] = l.IssueDate
 	l.fieldMap["added_at"] = l.AddedAt
-	l.fieldMap["passport_series"] = l.PassportSeries
-	l.fieldMap["passport_number"] = l.PassportNumber
-	l.fieldMap["department"] = l.Department
 	l.fieldMap["birth_place"] = l.BirthPlace
-	l.fieldMap["reg_place"] = l.RegPlace
 }
 
 func (l loanRequest) clone(db *gorm.DB) loanRequest {

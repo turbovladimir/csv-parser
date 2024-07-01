@@ -7,9 +7,11 @@ import (
 type ModelGenerator struct {
 }
 
-func (m *ModelGenerator) GenerateAll(outputDir string) {
+const BaseDir = "pkg/db/models"
+
+func (m *ModelGenerator) GenerateAll() {
 	g := gen.NewGenerator(gen.Config{
-		OutPath: outputDir,
+		OutPath: BaseDir,
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
 	})
 	g.UseDB(NewConnection()) // reuse your gorm db
@@ -38,9 +40,9 @@ func (m *ModelGenerator) GenerateAll(outputDir string) {
 	g.Execute()
 }
 
-func (m *ModelGenerator) GenerateModel(outputDir string, modelName string) {
+func (m *ModelGenerator) GenerateModel(modelName string) {
 	g := gen.NewGenerator(gen.Config{
-		OutPath: outputDir,
+		OutPath: BaseDir,
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
 	})
 	g.UseDB(NewConnection())

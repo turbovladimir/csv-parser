@@ -12,12 +12,13 @@ const TableNameContact = "contact"
 
 // Contact mapped from table <contact>
 type Contact struct {
-	ID         int32     `gorm:"column:id;primaryKey" json:"id"`
-	SmsQueueID int32     `gorm:"column:sms_queue_id;not null" json:"sms_queue_id"`
-	AddedAt    time.Time `gorm:"column:added_at;not null" json:"added_at"`
-	Name       string    `gorm:"column:name;not null" json:"name"`
-	Phone      string    `gorm:"column:phone;not null" json:"phone"`
-	ContactID  string    `gorm:"column:contact_id;not null" json:"contact_id"`
+	ID        int32     `gorm:"column:id;primaryKey" json:"id"`
+	QueueID   int32     `gorm:"column:queue_id;default:NULL" json:"queue_id"`
+	AddedAt   time.Time `gorm:"column:added_at;not null" json:"added_at"`
+	Name      string    `gorm:"column:name;default:NULL" json:"name"`
+	Phone     string    `gorm:"column:phone;not null" json:"phone"`
+	ContactID string    `gorm:"column:contact_id;not null" json:"contact_id"`
+	Source    string    `gorm:"column:source;default:direct" json:"source"`
 }
 
 // TableName Contact's table name

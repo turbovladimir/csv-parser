@@ -15,7 +15,7 @@ type SmsQueue struct {
 	ID       int32     `gorm:"column:id;primaryKey" json:"id"`
 	AddedAt  time.Time `gorm:"column:added_at;not null" json:"added_at"`
 	Status   string    `gorm:"column:status;not null" json:"status"`
-	FilePath string    `gorm:"column:file_path" json:"file_path"`
+	FilePath string    `gorm:"column:file_path;not null" json:"file_path"`
 }
 
 // TableName SmsQueue's table name

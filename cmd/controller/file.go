@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+const SourceTypeDistribution = "distribution"
+
 type FileParseRequest struct {
 	FilePath string `json:"file_path"`
 }
@@ -44,6 +46,7 @@ func FileParse(c *gin.Context) {
 			Name:      row[0],
 			AddedAt:   added,
 			Phone:     row[1],
+			Source:    SourceTypeDistribution,
 		})
 	}
 
