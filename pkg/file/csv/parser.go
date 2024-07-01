@@ -2,8 +2,6 @@ package csv
 
 import (
 	"encoding/csv"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 )
@@ -11,24 +9,23 @@ import (
 type Parser struct {
 }
 
-func (p *Parser) ParseDir(dir string) {
-	fmt.Println(fmt.Sprintf("Scan dir %s", dir))
-
-	files, err := ioutil.ReadDir(dir)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var records [][]string
-
-	for _, file := range files {
-		records := p.ParseFile(dir + "/" + file.Name())
-
-		for _, record := range records[:1] {
-			fmt.Println(record)
-		}
-	}
-}
+//
+//func (p *Parser) ParseDir(dir string) {
+//	fmt.Println(fmt.Sprintf("Scan dir %s", dir))
+//
+//	files, err := ioutil.ReadDir(dir)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//
+//	for _, file := range files {
+//		records := p.ParseFile(dir + "/" + file.Name())
+//
+//		for _, record := range records[:1] {
+//			fmt.Println(record)
+//		}
+//	}
+//}
 
 func (p *Parser) ParseFile(filePath string) [][]string {
 	f, err := os.Open(filePath)

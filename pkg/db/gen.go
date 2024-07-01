@@ -1,32 +1,18 @@
 package db
 
 import (
-	"fmt"
-	"gorm.io/driver/postgres"
 	"gorm.io/gen"
-	"gorm.io/gorm"
-	"os"
 )
 
 type ModelGenerator struct {
 }
 
-type DsnConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Database string
-}
-
-func (m *ModelGenerator) Generate(outputDir string) {
-	config := ResolveDBConfig()
+func (m *ModelGenerator) GenerateAll(outputDir string) {
 	g := gen.NewGenerator(gen.Config{
 		OutPath: outputDir,
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
 	})
-	gormdb, _ := gorm.Open(postgres.Open(config.ToString()))
-	g.UseDB(gormdb) // reuse your gorm db
+	g.UseDB(NewConnection()) // reuse your gorm db
 
 	//// Generate basic type-safe DAO API for struct `model.User` following conventions
 	//
@@ -52,18 +38,17 @@ func (m *ModelGenerator) Generate(outputDir string) {
 	g.Execute()
 }
 
-func ResolveDBConfig() *DsnConfig {
-	return &DsnConfig{
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	}
-}
+func (m *ModelGenerator) GenerateModel(outputDir string, modelName string) {
+	g := gen.NewGenerator(gen.Config{
+		OutPath: outputDir,
+		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
+	})
+	g.UseDB(NewConnection())
 
-func (c DsnConfig) ToString() string {
-	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Europe/Moscow",
-		c.Host, c.User, c.Password, c.Database, c.Port,
+	g.ApplyBasic(
+		// Generate structs from all tables of current database
+		g.GenerateModel(modelName),
 	)
+	// Generate the code
+	g.Execute()
 }
